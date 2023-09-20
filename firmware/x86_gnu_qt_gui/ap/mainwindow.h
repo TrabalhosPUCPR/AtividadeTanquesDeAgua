@@ -25,15 +25,23 @@ public:
         double value;
         double water_in_rate;
         double volume;
+        double temperature;
         uint8_t *pumped;
         uint8_t *sensor1;
         uint8_t *sensor2;
         uint8_t *receiving;
     } Tank;
 
+    typedef struct {
+        double temp_decrease_rate;
+        double temp_increase_rate;
+        Tank *connected_tank;
+    } Boiler;
+
 private:
     Ui::MainWindow *ui;
     void update_tank(Tank *tank);
+    void update_boiler(Boiler *boiler);
 
 public slots:
     void update_ui();

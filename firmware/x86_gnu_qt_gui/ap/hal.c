@@ -42,7 +42,7 @@ uint8_t p1(uint8_t state) {
 // ------------ tank 3 ------------
 uint8_t pin_s31 = 0;
 uint8_t pin_s32 = 0;
-uint8_t pin_p2 = 0;
+uint8_t pin_v2 = 0;
 
 uint8_t s31() {
     return pin_s31;
@@ -50,6 +50,6 @@ uint8_t s31() {
 uint8_t s32() {
     return pin_s32;
 }
-uint8_t p2(uint8_t state) {
-    pin_p2 = state;
+uint8_t v2(uint8_t state) {
+    pin_v2 = state;
 }

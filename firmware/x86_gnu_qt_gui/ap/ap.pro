@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     ../../common/behavior.c \
+    ../../common/defaults.c \
     ../../common/sm1.c \
     ../../common/sm2.c \
     ../../common/sm3.c \
@@ -21,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     ../../common/behavior.h \
+    ../../common/defaults.h \
     ../../common/hal.h \
     ../../common/sm.h \
     ../../common/sm1.h \

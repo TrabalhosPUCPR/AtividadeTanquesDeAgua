@@ -5,12 +5,18 @@
 
 uint8_t off = 0;
 
-const double sensor_1_threshold = 10;
-const double sensor_2_threshold = 90;
+#define sensor_1_threshold 15
+#define sensor_2_threshold 97
 
-const double water_add_rate = 4;
-const double water_vaporation_rate = .1;
-const double water_pump_rate = 2;
+#define water_add_rate 2
+#define water_vaporation_rate .2
+#define water_pump_rate 3
+
+#define temp_increase_rate 1
+#define temp_decrease_rate .1
+#define max_temp 60
+
+double ambient_temp = 25;
 
 extern uint8_t pin_s11;
 extern uint8_t pin_s12;
@@ -22,12 +28,13 @@ extern uint8_t pin_p1;
 
 extern uint8_t pin_s31;
 extern uint8_t pin_s32;
-extern uint8_t pin_p2;
+extern uint8_t pin_v2;
 
 MainWindow::Tank tank1 = {
     0,
     water_add_rate,
     100,
+    ambient_temp,
     &pin_p1,
     &pin_s11,
     &pin_s12,
@@ -38,7 +45,8 @@ MainWindow::Tank tank2 = {
     0,
     water_pump_rate,
     100,
-    &pin_p2,
+    ambient_temp,
+    &pin_v2,
     &pin_s21,
     &pin_s22,
     &pin_p1
@@ -46,12 +54,19 @@ MainWindow::Tank tank2 = {
 
 MainWindow::Tank tank3 = {
     0,
-    water_pump_rate,
+    water_add_rate,
     25,
+    ambient_temp,
     &off,
     &pin_s31,
     &pin_s32,
-    &pin_p2
+    &pin_v2
+};
+
+MainWindow::Boiler boiler1 = {
+    temp_decrease_rate,
+    temp_increase_rate,
+    &tank3
 };
 
 MainWindow::MainWindow(QWidget *parent)
@@ -101,10 +116,17 @@ void MainWindow::update_ui() {
     ui->s32->setPower(pin_s32);
     ui->valvula1->setPower(pin_v1);
     ui->pump1->setPower(pin_p1);
-    ui->pump2->setPower(pin_p2);
+    ui->pump2->setPower(pin_v2);
     ui->toolButton_tank1->setValue(get_percentage(tank1.value, tank1.volume));
     ui->toolButton_tank2->setValue(get_percentage(tank2.value, tank2.volume));
     ui->toolButton_tank3->setValue(get_percentage(tank3.value, tank3.volume));
+
+    ui->label_waterTemp->setText(QString::number(tank3.temperature).append(" C°"));
+
+    ui->label_tank1_status->setText(QString::number(tank1.value));
+    ui->label_tank2_status->setText(QString::number(tank2.value));
+    ui->label_tank3_status->setText(QString::number(tank3.value));
+
 }
 
 void MainWindow::update_tank(Tank *tank) {
@@ -114,21 +136,27 @@ void MainWindow::update_tank(Tank *tank) {
             tank->value = tank->volume;
     }
 
-    if(tank->value > 0)
+    if(tank->value > 0){
         tank->value -= .1 * water_vaporation_rate;
+    }
 
     if(*tank->pumped)
         tank->value -= .1 * water_pump_rate;
 
     double p = get_percentage(tank->value, tank->volume);
-    *tank->sensor1 = p > sensor_1_threshold;
-    *tank->sensor2 = p > sensor_2_threshold;
+    *tank->sensor1 = p >= sensor_1_threshold;
+    *tank->sensor2 = p >= sensor_2_threshold;
 }
 
 void MainWindow::update_irl_data() {
     update_tank(&tank1);
     update_tank(&tank2);
     update_tank(&tank3);
+    update_boiler(&boiler1);
+}
+
+void MainWindow::update_boiler(Boiler *boiler) {
+
 }
 
 void MainWindow::valve_click() {

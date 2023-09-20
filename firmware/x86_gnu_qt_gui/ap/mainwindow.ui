@@ -123,7 +123,7 @@
       <x>810</x>
       <y>60</y>
       <width>20</width>
-      <height>71</height>
+      <height>121</height>
      </rect>
     </property>
     <property name="orientation">
@@ -141,9 +141,9 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_18">
      <item>
-      <widget class="QLabel" name="label_pump2">
+      <widget class="QLabel" name="label_valve2">
        <property name="text">
-        <string>Pump 2</string>
+        <string>Valve 2</string>
        </property>
       </widget>
      </item>
@@ -210,10 +210,10 @@
    <widget class="cedaTank" name="toolButton_tank3">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>130</y>
-      <width>201</width>
-      <height>151</height>
+      <x>750</x>
+      <y>181</y>
+      <width>100</width>
+      <height>100</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -235,9 +235,9 @@
    <widget class="Led" name="h1">
     <property name="geometry">
      <rect>
-      <x>860</x>
+      <x>800</x>
       <y>290</y>
-      <width>81</width>
+      <width>61</width>
       <height>21</height>
      </rect>
     </property>
@@ -254,17 +254,17 @@
      <string>...</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_heater">
+   <widget class="QLabel" name="label_boiler">
     <property name="geometry">
      <rect>
-      <x>880</x>
-      <y>320</y>
+      <x>800</x>
+      <y>310</y>
       <width>51</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Heater</string>
+     <string>Boiler</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -273,8 +273,8 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>110</y>
+      <x>750</x>
+      <y>160</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -292,9 +292,9 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>950</x>
+      <x>870</x>
       <y>130</y>
-      <width>51</width>
+      <width>98</width>
       <height>151</height>
      </rect>
     </property>
@@ -341,7 +341,7 @@
      <item>
       <layout class="QHBoxLayout" name="a" stretch="0,0">
        <property name="spacing">
-        <number>0</number>
+        <number>8</number>
        </property>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -349,7 +349,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="label_hs1">
+          <widget class="QLabel" name="label_ts1">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -357,12 +357,12 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>hs1</string>
+            <string>bs1</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="Led" name="hs1">
+          <widget class="Led" name="ts1">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
              <horstretch>0</horstretch>
@@ -377,7 +377,19 @@
         </layout>
        </item>
        <item>
-        <widget class="QLabel" name="label_hTemp">
+        <widget class="QLabel" name="label_waterTemp">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>60</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="text">
           <string>0°C</string>
          </property>
@@ -766,7 +778,7 @@
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>290</y>
+      <y>280</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -788,7 +800,7 @@
    <zorder>line_9</zorder>
    <zorder>toolButton_tank3</zorder>
    <zorder>h1</zorder>
-   <zorder>label_heater</zorder>
+   <zorder>label_boiler</zorder>
    <zorder>label_6</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>label_valve</zorder>
