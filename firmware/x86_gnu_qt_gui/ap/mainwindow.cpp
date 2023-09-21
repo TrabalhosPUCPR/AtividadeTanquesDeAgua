@@ -9,8 +9,8 @@ uint8_t off = 0;
 #define sensor_2_threshold 97
 
 #define water_add_rate 2
-#define water_vaporation_rate .2
-#define water_pump_rate 3
+#define water_vaporation_rate 0.3
+#define water_transfer_rate 3
 
 #define temp_increase_rate 1
 #define temp_decrease_rate .1
@@ -38,29 +38,30 @@ MainWindow::Tank tank1 = {
     &pin_p1,
     &pin_s11,
     &pin_s12,
-    &pin_v1
+    &pin_v1,
+    NULL
 };
-
 MainWindow::Tank tank2 = {
     0,
-    water_pump_rate,
+    water_transfer_rate,
     100,
     ambient_temp,
-    &pin_v2,
+    &off,
     &pin_s21,
     &pin_s22,
-    &pin_p1
+    &pin_p1,
+    NULL
 };
-
 MainWindow::Tank tank3 = {
     0,
-    water_add_rate,
+    water_transfer_rate,
     25,
     ambient_temp,
     &off,
     &pin_s31,
     &pin_s32,
-    &pin_v2
+    &off,
+    NULL, // null pq no c++ n tem como COLOCAR A VARIAVEL LA EM CIMA E INSTANCIA DPS, PQ???? ESSA ESTRUTURA FOI TUDO VISANDO ISSO
 };
 
 MainWindow::Boiler boiler1 = {
@@ -85,10 +86,23 @@ MainWindow::MainWindow(QWidget *parent)
             this,
             SLOT(update_irl_data()));
 
-    connect(ui->pushButton_valve,
-            SIGNAL(pressed()),
+    connect(ui->pushButton_drainTank1,
+            SIGNAL(released()),
             this,
-            SLOT(valve_click()));
+            SLOT(drain_tank1()));
+
+    connect(ui->pushButton_drainTank2,
+            SIGNAL(released()),
+            this,
+            SLOT(drain_tank2()));
+
+    connect(ui->pushButton_drainTank3,
+            SIGNAL(released()),
+            this,
+            SLOT(drain_tank3()));
+
+    tank2.bidirect_connected_tank = &tank3;
+    tank3.bidirect_connected_tank = &tank2;
 
     timer_ui.start(40);
     timer_irl.start(10);
@@ -131,21 +145,35 @@ void MainWindow::update_ui() {
 
 void MainWindow::update_tank(Tank *tank) {
     if(*tank->receiving){
+
         tank->value += .1 * tank->water_in_rate;
+
         if(tank->value > tank->volume)
             tank->value = tank->volume;
     }
 
-    if(tank->value > 0){
-        tank->value -= .1 * water_vaporation_rate;
+    if(tank->bidirect_connected_tank != NULL){
+        balance_tanks(tank, tank->bidirect_connected_tank);
     }
 
+    vaporate_water(tank);
+
     if(*tank->pumped)
-        tank->value -= .1 * water_pump_rate;
+        tank->value -= .1 * water_transfer_rate;
 
     double p = get_percentage(tank->value, tank->volume);
     *tank->sensor1 = p >= sensor_1_threshold;
     *tank->sensor2 = p >= sensor_2_threshold;
+}
+
+void MainWindow::balance_tanks(Tank *tank1, Tank *tank2) {
+    if(tank1->value < tank2->value && !*tank1->sensor2){
+        tank1->value += .1 * water_transfer_rate;
+        tank2->value -= .1 * water_transfer_rate;
+    } else if(tank2->value < tank1->value && !*tank2->sensor2){
+        tank1->value -= .1 * water_transfer_rate;
+        tank2->value += .1 * water_transfer_rate;
+    }
 }
 
 void MainWindow::update_irl_data() {
@@ -159,12 +187,19 @@ void MainWindow::update_boiler(Boiler *boiler) {
 
 }
 
-void MainWindow::valve_click() {
-    //QApplication::exit(0);
-    printf("bomdia");
-    if(pin_v1)
-        pin_v1 = 0;
-    else
-        pin_v1 = 1;
+void MainWindow::vaporate_water(Tank* tank) {
+    double to_remove = .1 * water_vaporation_rate;
+    if(tank->value > to_remove)
+        tank->value -= to_remove;
+}
+
+void MainWindow::drain_tank1(){
+    tank1.value = 0;
+}
+void MainWindow::drain_tank2(){
+    tank2.value = 0;
+}
+void MainWindow::drain_tank3(){
+    tank3.value = 0;
 }
 

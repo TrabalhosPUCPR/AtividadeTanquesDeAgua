@@ -4,8 +4,8 @@
 #include "sm.h"
 
 STATE(sm3_init);
-STATE(sm3_pump_on);
-STATE(sm3_pump_off);
-STATE(sm3_pump_error);
+STATE(sm3_valve_on);
+STATE(sm3_valve_off);
+STATE(sm3_valve_error);
 
 #endif // SM3_H

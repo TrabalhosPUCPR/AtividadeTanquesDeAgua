@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1020</width>
-    <height>398</height>
+    <width>993</width>
+    <height>544</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -120,10 +120,10 @@
    <widget class="Line" name="line_5">
     <property name="geometry">
      <rect>
-      <x>810</x>
+      <x>780</x>
       <y>60</y>
       <width>20</width>
-      <height>121</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="orientation">
@@ -199,7 +199,7 @@
      <rect>
       <x>750</x>
       <y>50</y>
-      <width>71</width>
+      <width>41</width>
       <height>20</height>
      </rect>
     </property>
@@ -210,10 +210,10 @@
    <widget class="cedaTank" name="toolButton_tank3">
     <property name="geometry">
      <rect>
-      <x>750</x>
-      <y>181</y>
+      <x>710</x>
+      <y>205</y>
       <width>100</width>
-      <height>100</height>
+      <height>75</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -224,8 +224,8 @@
     </property>
     <property name="minimumSize">
      <size>
-      <width>100</width>
-      <height>100</height>
+      <width>0</width>
+      <height>0</height>
      </size>
     </property>
     <property name="text">
@@ -235,7 +235,7 @@
    <widget class="Led" name="h1">
     <property name="geometry">
      <rect>
-      <x>800</x>
+      <x>760</x>
       <y>290</y>
       <width>61</width>
       <height>21</height>
@@ -257,7 +257,7 @@
    <widget class="QLabel" name="label_boiler">
     <property name="geometry">
      <rect>
-      <x>800</x>
+      <x>760</x>
       <y>310</y>
       <width>51</width>
       <height>21</height>
@@ -273,8 +273,8 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>750</x>
-      <y>160</y>
+      <x>720</x>
+      <y>180</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -292,7 +292,7 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>870</x>
+      <x>820</x>
       <y>130</y>
       <width>98</width>
       <height>151</height>
@@ -478,7 +478,7 @@
      <rect>
       <x>130</x>
       <y>130</y>
-      <width>201</width>
+      <width>200</width>
       <height>151</height>
      </rect>
     </property>
@@ -604,10 +604,10 @@
    <widget class="cedaTank" name="toolButton_tank2">
     <property name="geometry">
      <rect>
-      <x>440</x>
+      <x>430</x>
       <y>130</y>
-      <width>201</width>
-      <height>151</height>
+      <width>200</width>
+      <height>150</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -729,17 +729,17 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="pushButton_valve">
+   <widget class="QPushButton" name="pushButton_drainTank3">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>220</y>
+      <x>720</x>
+      <y>350</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>Valvula</string>
+     <string>Drain</string>
     </property>
     <property name="checkable">
      <bool>false</bool>
@@ -777,14 +777,52 @@
    <widget class="QLabel" name="label_tank3_status">
     <property name="geometry">
      <rect>
-      <x>750</x>
+      <x>710</x>
       <y>280</y>
-      <width>101</width>
+      <width>41</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>Status</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_drainTank2">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>350</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Drain</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_drainTank1">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>350</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Drain</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
     </property>
    </widget>
    <zorder>line_7</zorder>
@@ -811,17 +849,19 @@
    <zorder>toolButton_tank2</zorder>
    <zorder>label_5</zorder>
    <zorder>layoutWidget</zorder>
-   <zorder>pushButton_valve</zorder>
+   <zorder>pushButton_drainTank3</zorder>
    <zorder>label_tank1_status</zorder>
    <zorder>label_tank2_status</zorder>
    <zorder>label_tank3_status</zorder>
+   <zorder>pushButton_drainTank2</zorder>
+   <zorder>pushButton_drainTank1</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1020</width>
+     <width>993</width>
      <height>22</height>
     </rect>
    </property>

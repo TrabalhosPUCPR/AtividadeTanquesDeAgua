@@ -21,7 +21,9 @@ public:
     QTimer timer_irl;
     BehaviorThread behavior_thread;
 
-    typedef struct {
+    struct Tank;
+
+    struct Tank {
         double value;
         double water_in_rate;
         double volume;
@@ -30,7 +32,8 @@ public:
         uint8_t *sensor1;
         uint8_t *sensor2;
         uint8_t *receiving;
-    } Tank;
+        Tank* bidirect_connected_tank;
+    };
 
     typedef struct {
         double temp_decrease_rate;
@@ -42,10 +45,14 @@ private:
     Ui::MainWindow *ui;
     void update_tank(Tank *tank);
     void update_boiler(Boiler *boiler);
+    void balance_tanks(Tank *tank1, Tank *tank2);
 
 public slots:
     void update_ui();
     void update_irl_data();
-    void valve_click();
+    void vaporate_water(Tank* tank);
+    void drain_tank1();
+    void drain_tank2();
+    void drain_tank3();
 };
 #endif // MAINWINDOW_H

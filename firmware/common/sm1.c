@@ -22,8 +22,6 @@ STATE(sm1_v1_off) {
     v1(0);
     if(now() - start > minDelay() && !s12())
         NEXT_STATE(sm1_v1_on);
-    else if(!s11())
-        NEXT_STATE(sm1_v1_error);
 }
 STATE(sm1_v1_error) {
     v1(0);
