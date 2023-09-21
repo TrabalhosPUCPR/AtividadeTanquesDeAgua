@@ -36,8 +36,8 @@ public:
     };
 
     typedef struct {
-        double temp_decrease_rate;
-        double temp_increase_rate;
+        uint8_t *on;
+        uint8_t *sensor;
         Tank *connected_tank;
     } Boiler;
 

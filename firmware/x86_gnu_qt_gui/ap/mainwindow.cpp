@@ -12,9 +12,9 @@ uint8_t off = 0;
 #define water_vaporation_rate 0.3
 #define water_transfer_rate 3
 
-#define temp_increase_rate 1
-#define temp_decrease_rate .1
-#define max_temp 60
+#define temp_increase_rate .05
+#define temp_decrease_rate .015
+#define max_temp 100
 
 double ambient_temp = 25;
 
@@ -29,6 +29,8 @@ extern uint8_t pin_p1;
 extern uint8_t pin_s31;
 extern uint8_t pin_s32;
 extern uint8_t pin_v2;
+extern uint8_t pin_b1;
+extern uint8_t pin_bs1;
 
 MainWindow::Tank tank1 = {
     0,
@@ -57,16 +59,16 @@ MainWindow::Tank tank3 = {
     water_transfer_rate,
     25,
     ambient_temp,
-    &off,
+    &pin_v2,
     &pin_s31,
     &pin_s32,
-    &off,
+    &pin_v2,
     NULL, // null pq no c++ n tem como COLOCAR A VARIAVEL LA EM CIMA E INSTANCIA DPS, PQ???? ESSA ESTRUTURA FOI TUDO VISANDO ISSO
 };
 
 MainWindow::Boiler boiler1 = {
-    temp_decrease_rate,
-    temp_increase_rate,
+    &pin_b1,
+    &pin_bs1,
     &tank3
 };
 
@@ -128,9 +130,11 @@ void MainWindow::update_ui() {
     ui->s22->setPower(pin_s22);
     ui->s31->setPower(pin_s31);
     ui->s32->setPower(pin_s32);
+    ui->bs1->setPower(pin_bs1);
     ui->valvula1->setPower(pin_v1);
     ui->pump1->setPower(pin_p1);
     ui->pump2->setPower(pin_v2);
+    ui->b1->setPower(pin_b1);
     ui->toolButton_tank1->setValue(get_percentage(tank1.value, tank1.volume));
     ui->toolButton_tank2->setValue(get_percentage(tank2.value, tank2.volume));
     ui->toolButton_tank3->setValue(get_percentage(tank3.value, tank3.volume));
@@ -144,10 +148,10 @@ void MainWindow::update_ui() {
 }
 
 void MainWindow::update_tank(Tank *tank) {
-    if(*tank->receiving){
+    uint8_t bi = tank->pumped == tank->receiving;
 
+    if(*tank->receiving && !bi){
         tank->value += .1 * tank->water_in_rate;
-
         if(tank->value > tank->volume)
             tank->value = tank->volume;
     }
@@ -158,7 +162,7 @@ void MainWindow::update_tank(Tank *tank) {
 
     vaporate_water(tank);
 
-    if(*tank->pumped)
+    if(*tank->pumped && !bi)
         tank->value -= .1 * water_transfer_rate;
 
     double p = get_percentage(tank->value, tank->volume);
@@ -184,7 +188,19 @@ void MainWindow::update_irl_data() {
 }
 
 void MainWindow::update_boiler(Boiler *boiler) {
+    if(*boiler->on) {
+        boiler->connected_tank->temperature += .1 * temp_increase_rate;
+    }
 
+    double to_remove = .1 * temp_decrease_rate;
+    if(boiler->connected_tank->temperature >= to_remove && boiler->connected_tank->temperature > ambient_temp)
+        boiler->connected_tank->temperature -= to_remove;
+
+    if(*boiler->connected_tank->receiving) {
+        boiler->connected_tank->temperature -= to_remove;
+    }
+
+    pin_bs1 = boiler->connected_tank->temperature >= max_temp;
 }
 
 void MainWindow::vaporate_water(Tank* tank) {

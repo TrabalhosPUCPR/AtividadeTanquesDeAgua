@@ -14,6 +14,7 @@ SOURCES += \
     ../../common/sm1.c \
     ../../common/sm2.c \
     ../../common/sm3.c \
+    ../../common/sm4.c \
     behaviorthread.cpp \
     cedatank.cpp \
     hal.c \
@@ -28,6 +29,7 @@ HEADERS += \
     ../../common/sm1.h \
     ../../common/sm2.h \
     ../../common/sm3.h \
+    ../../common/sm4.h \
     behaviorthread.h \
     cedatank.h \
     led.h \
