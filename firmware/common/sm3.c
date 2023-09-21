@@ -16,7 +16,7 @@ STATE(sm3_valve_on) {
 }
 STATE(sm3_valve_off) {
     v2(0);
-    if(!s32() && !s22() || (s21() && s31()))
+    if((!s32() && !s22()) && (s21() || s31()))
         NEXT_STATE(sm3_valve_on);
 }
 STATE(sm3_valve_error) {
