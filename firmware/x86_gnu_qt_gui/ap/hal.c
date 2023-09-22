@@ -40,7 +40,7 @@ uint8_t pin_s31 = 0;
 uint8_t pin_s32 = 0;
 uint8_t pin_v2 = 0;
 uint8_t pin_b1 = 0;
-uint8_t pin_bs1 = 0;
+uint32_t pin_bs1 = 0;
 
 uint8_t s31() {
     return pin_s31;
@@ -56,6 +56,6 @@ uint8_t b1(int8_t state){
     pin_b1 = state;
 }
 
-uint8_t bs1(){
+uint32_t bs1(){
     return pin_bs1;
 }

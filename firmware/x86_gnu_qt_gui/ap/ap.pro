@@ -10,13 +10,13 @@ CONFIG += c++17
 
 SOURCES += \
     ../../common/behavior.c \
-    ../../common/defaults.c \
     ../../common/sm1.c \
     ../../common/sm2.c \
     ../../common/sm3.c \
     ../../common/sm4.c \
     behaviorthread.cpp \
     cedatank.cpp \
+    defaults.c \
     hal.c \
     main.cpp \
     mainwindow.cpp

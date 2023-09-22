@@ -210,10 +210,10 @@
    <widget class="cedaTank" name="toolButton_tank3">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>229</y>
-      <width>100</width>
-      <height>51</height>
+      <x>700</x>
+      <y>219</y>
+      <width>111</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -273,8 +273,8 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>210</y>
+      <x>700</x>
+      <y>200</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -836,7 +836,6 @@
    <zorder>line_6</zorder>
    <zorder>line_8</zorder>
    <zorder>line_9</zorder>
-   <zorder>toolButton_tank3</zorder>
    <zorder>b1</zorder>
    <zorder>label_boiler</zorder>
    <zorder>label_6</zorder>
@@ -855,6 +854,7 @@
    <zorder>label_tank3_status</zorder>
    <zorder>pushButton_drainTank2</zorder>
    <zorder>pushButton_drainTank1</zorder>
+   <zorder>toolButton_tank3</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

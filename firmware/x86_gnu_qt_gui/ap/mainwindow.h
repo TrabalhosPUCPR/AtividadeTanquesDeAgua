@@ -27,7 +27,7 @@ public:
         double value;
         double water_in_rate;
         double volume;
-        double temperature;
+        uint32_t *temperature;
         uint8_t *pumped;
         uint8_t *sensor1;
         uint8_t *sensor2;
@@ -37,7 +37,6 @@ public:
 
     typedef struct {
         uint8_t *on;
-        uint8_t *sensor;
         Tank *connected_tank;
     } Boiler;
 

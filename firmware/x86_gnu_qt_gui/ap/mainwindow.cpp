@@ -3,6 +3,10 @@
 #include <stdint.h>
 #include <stdio.h>
 
+extern "C" {
+    #include "../../common/defaults.h"
+}
+
 uint8_t off = 0;
 
 #define sensor_1_threshold 15
@@ -12,11 +16,8 @@ uint8_t off = 0;
 #define water_vaporation_rate 0.3
 #define water_transfer_rate 3
 
-#define temp_increase_rate .05
-#define temp_decrease_rate .015
-#define max_temp 100
-
-double ambient_temp = 25;
+#define temp_increase_rate 30
+#define temp_decrease_rate 5
 
 extern uint8_t pin_s11;
 extern uint8_t pin_s12;
@@ -30,13 +31,13 @@ extern uint8_t pin_s31;
 extern uint8_t pin_s32;
 extern uint8_t pin_v2;
 extern uint8_t pin_b1;
-extern uint8_t pin_bs1;
+extern uint32_t pin_bs1;
 
 MainWindow::Tank tank1 = {
     0,
     water_add_rate,
     100,
-    ambient_temp,
+    0,
     &pin_p1,
     &pin_s11,
     &pin_s12,
@@ -47,7 +48,7 @@ MainWindow::Tank tank2 = {
     0,
     water_transfer_rate,
     100,
-    ambient_temp,
+    0,
     &off,
     &pin_s21,
     &pin_s22,
@@ -58,7 +59,7 @@ MainWindow::Tank tank3 = {
     0,
     water_transfer_rate,
     25,
-    ambient_temp,
+    &pin_bs1,
     &pin_v2,
     &pin_s31,
     &pin_s32,
@@ -68,7 +69,6 @@ MainWindow::Tank tank3 = {
 
 MainWindow::Boiler boiler1 = {
     &pin_b1,
-    &pin_bs1,
     &tank3
 };
 
@@ -106,6 +106,8 @@ MainWindow::MainWindow(QWidget *parent)
     tank2.bidirect_connected_tank = &tank3;
     tank3.bidirect_connected_tank = &tank2;
 
+    pin_bs1 = ambientTemp();
+
     timer_ui.start(40);
     timer_irl.start(10);
 
@@ -139,7 +141,7 @@ void MainWindow::update_ui() {
     ui->toolButton_tank2->setValue(get_percentage(tank2.value, tank2.volume));
     ui->toolButton_tank3->setValue(get_percentage(tank3.value, tank3.volume));
 
-    ui->label_waterTemp->setText(QString::number(tank3.temperature).append(" C°"));
+    ui->label_waterTemp->setText(QString::number(fromFakeDecimal(*tank3.temperature)).append(" C°"));
 
     ui->label_tank1_status->setText(QString::number(tank1.value));
     ui->label_tank2_status->setText(QString::number(tank2.value));
@@ -189,18 +191,12 @@ void MainWindow::update_irl_data() {
 
 void MainWindow::update_boiler(Boiler *boiler) {
     if(*boiler->on) {
-        boiler->connected_tank->temperature += .1 * temp_increase_rate;
+        *boiler->connected_tank->temperature += .1 * temp_increase_rate;
+    } else {
+        uint32_t to_remove = .1 * temp_increase_rate;
+        if(*boiler->connected_tank->temperature - to_remove >= ambientTemp())
+            *boiler->connected_tank->temperature -= to_remove;
     }
-
-    double to_remove = .1 * temp_decrease_rate;
-    if(boiler->connected_tank->temperature >= to_remove && boiler->connected_tank->temperature > ambient_temp)
-        boiler->connected_tank->temperature -= to_remove;
-
-    if(*boiler->connected_tank->receiving) {
-        boiler->connected_tank->temperature -= to_remove;
-    }
-
-    pin_bs1 = boiler->connected_tank->temperature >= max_temp;
 }
 
 void MainWindow::vaporate_water(Tank* tank) {
