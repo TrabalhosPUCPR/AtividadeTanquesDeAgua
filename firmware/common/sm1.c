@@ -1,8 +1,9 @@
 #include "sm1.h"
 #include "hal.h"
 #include "defaults.h"
+#include "chrono.h"
 
-uint32_t start;
+chrono c1;
 
 STATE(sm1_init) {
     v1(0);
@@ -14,13 +15,13 @@ STATE(sm1_init) {
 STATE(sm1_v1_on) {
     v1(1);
     if(s12()){
-        start = now();
+        start_chrono(&c1, minDelay());
         NEXT_STATE(sm1_v1_off);
     }
 }
 STATE(sm1_v1_off) {
     v1(0);
-    if(now() - start > minDelay() && !s12())
+    if(has_time_passed(&c1) && !s12())
         NEXT_STATE(sm1_v1_on);
 }
 STATE(sm1_v1_error) {

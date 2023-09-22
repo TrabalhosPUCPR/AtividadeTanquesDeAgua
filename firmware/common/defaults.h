@@ -5,6 +5,7 @@
 #include <float.h>
 
 uint32_t minDelay();
+uint32_t veryShortDelay();
 uint32_t maxTemp();
 uint32_t ambientTemp();
 uint32_t toFakeDecimal(float a);

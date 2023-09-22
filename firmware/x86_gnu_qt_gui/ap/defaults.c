@@ -1,12 +1,17 @@
 #include "../../common/defaults.h"
 
 #define d 3000
+#define d2 1500
 #define max_temp 5000
 
 double ambient_temp = 2500;
 
 uint32_t minDelay() {
     return d;
+}
+
+uint32_t veryShortDelay() {
+    return d2;
 }
 
 uint32_t maxTemp() {

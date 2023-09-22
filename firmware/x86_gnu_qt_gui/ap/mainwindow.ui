@@ -123,7 +123,7 @@
       <x>780</x>
       <y>60</y>
       <width>20</width>
-      <height>171</height>
+      <height>191</height>
      </rect>
     </property>
     <property name="orientation">
@@ -211,9 +211,9 @@
     <property name="geometry">
      <rect>
       <x>700</x>
-      <y>219</y>
-      <width>111</width>
-      <height>61</height>
+      <y>247</y>
+      <width>100</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -273,8 +273,8 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>700</x>
-      <y>200</y>
+      <x>710</x>
+      <y>230</y>
       <width>51</width>
       <height>20</height>
      </rect>

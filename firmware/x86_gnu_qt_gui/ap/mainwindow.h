@@ -32,6 +32,7 @@ public:
         uint8_t *sensor1;
         uint8_t *sensor2;
         uint8_t *receiving;
+        uint8_t *bidirect_valve;
         Tank* bidirect_connected_tank;
     };
 

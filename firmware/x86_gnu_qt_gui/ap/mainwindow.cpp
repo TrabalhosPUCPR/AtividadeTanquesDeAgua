@@ -42,10 +42,11 @@ MainWindow::Tank tank1 = {
     &pin_s11,
     &pin_s12,
     &pin_v1,
+    &off,
     NULL
 };
 MainWindow::Tank tank2 = {
-    0,
+    50,
     water_transfer_rate,
     100,
     0,
@@ -53,18 +54,20 @@ MainWindow::Tank tank2 = {
     &pin_s21,
     &pin_s22,
     &pin_p1,
-    NULL
+    &pin_v2,
+    NULL // null pq no c++ n tem como COLOCAR A VARIAVEL LA EM CIMA E INSTANCIA DPS, PQ???? ESSA ESTRUTURA FOI TUDO VISANDO ISSO
 };
 MainWindow::Tank tank3 = {
     0,
     water_transfer_rate,
     25,
     &pin_bs1,
-    &pin_v2,
+    &off,
     &pin_s31,
     &pin_s32,
+    &off,
     &pin_v2,
-    NULL, // null pq no c++ n tem como COLOCAR A VARIAVEL LA EM CIMA E INSTANCIA DPS, PQ???? ESSA ESTRUTURA FOI TUDO VISANDO ISSO
+    NULL
 };
 
 MainWindow::Boiler boiler1 = {
@@ -125,6 +128,14 @@ double get_percentage(double value, double max_value) {
     return (value*100)/max_value; // TODO mudar maneira de calcular o double
 }
 
+uint32_t convert_tank(MainWindow::Tank *t1, MainWindow::Tank *t2){
+    int ratio = t1->volume / t2->volume;
+    printf("%d \n", ratio);
+    printf("%f aa \n", t1->value * ratio);
+    printf("%f va \n", t1->value);
+    return t1->value * ratio;
+}
+
 void MainWindow::update_ui() {
     ui->s11->setPower(pin_s11);
     ui->s12->setPower(pin_s12);
@@ -139,7 +150,7 @@ void MainWindow::update_ui() {
     ui->b1->setPower(pin_b1);
     ui->toolButton_tank1->setValue(get_percentage(tank1.value, tank1.volume));
     ui->toolButton_tank2->setValue(get_percentage(tank2.value, tank2.volume));
-    ui->toolButton_tank3->setValue(get_percentage(tank3.value, tank3.volume));
+    ui->toolButton_tank3->setValue(convert_tank(&tank2, &tank3));
 
     ui->label_waterTemp->setText(QString::number(fromFakeDecimal(*tank3.temperature)).append(" C°"));
 
@@ -158,11 +169,11 @@ void MainWindow::update_tank(Tank *tank) {
             tank->value = tank->volume;
     }
 
-    if(tank->bidirect_connected_tank != NULL){
+    if(tank->bidirect_connected_tank != NULL && *tank->bidirect_valve){
         balance_tanks(tank, tank->bidirect_connected_tank);
     }
 
-    vaporate_water(tank);
+//    vaporate_water(tank);
 
     if(*tank->pumped && !bi)
         tank->value -= .1 * water_transfer_rate;
