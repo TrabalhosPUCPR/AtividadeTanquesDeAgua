@@ -46,6 +46,7 @@ private:
     void update_tank(Tank *tank);
     void update_boiler(Boiler *boiler);
     void balance_tanks(Tank *tank1, Tank *tank2);
+    void add_to_tank(Tank *tank, double value);
 
 public slots:
     void update_ui();

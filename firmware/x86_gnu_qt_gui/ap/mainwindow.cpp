@@ -60,7 +60,7 @@ MainWindow::Tank tank2 = {
 MainWindow::Tank tank3 = {
     0,
     water_transfer_rate,
-    25,
+    50,
     &pin_bs1,
     &off,
     &pin_s31,
@@ -74,6 +74,9 @@ MainWindow::Boiler boiler1 = {
     &pin_b1,
     &tank3
 };
+
+int t2_height;
+int t3_height;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -109,6 +112,9 @@ MainWindow::MainWindow(QWidget *parent)
     tank2.bidirect_connected_tank = &tank3;
     tank3.bidirect_connected_tank = &tank2;
 
+    t2_height = ui->toolButton_tank2->height();
+    t3_height = ui->toolButton_tank3->height();
+
     pin_bs1 = ambientTemp();
 
     timer_ui.start(40);
@@ -128,9 +134,8 @@ double get_percentage(double value, double max_value) {
     return (value*100)/max_value; // TODO mudar maneira de calcular o double
 }
 
-uint32_t convert_tank(MainWindow::Tank *t1, MainWindow::Tank *t2){
-    int m = (t1->volume / t2->volume) / 2;
-    return get_percentage(t1->value, t1->volume) * m;
+double map(double value, double istart, double istop, double ostart, double ostop) {
+    return ostart + (ostart - ostop) * ((value - istart) / (istop - istart));
 }
 
 void MainWindow::update_ui() {
@@ -147,13 +152,16 @@ void MainWindow::update_ui() {
     ui->b1->setPower(pin_b1);
     ui->toolButton_tank1->setValue(get_percentage(tank1.value, tank1.volume));
     ui->toolButton_tank2->setValue(get_percentage(tank2.value, tank2.volume));
-    ui->toolButton_tank3->setValue(convert_tank(&tank2, &tank3));
+
+    double t3_value = get_percentage(tank3.value, tank3.volume);
+
+    ui->toolButton_tank3->setValue(t3_value);
 
     ui->label_waterTemp->setText(QString::number(fromFakeDecimal(*tank3.temperature)).append(" C°"));
 
     ui->label_tank1_status->setText(QString::number(tank1.value));
     ui->label_tank2_status->setText(QString::number(tank2.value));
-    ui->label_tank3_status->setText(QString::number(tank3.value));
+    ui->label_tank3_status->setText(QString::number(tank3.value/2));
 
 }
 
