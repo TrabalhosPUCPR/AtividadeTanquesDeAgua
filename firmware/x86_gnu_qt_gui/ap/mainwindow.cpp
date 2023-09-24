@@ -46,7 +46,7 @@ MainWindow::Tank tank1 = {
     NULL
 };
 MainWindow::Tank tank2 = {
-    50,
+    0,
     water_transfer_rate,
     100,
     0,
@@ -129,11 +129,8 @@ double get_percentage(double value, double max_value) {
 }
 
 uint32_t convert_tank(MainWindow::Tank *t1, MainWindow::Tank *t2){
-    int ratio = t1->volume / t2->volume;
-    printf("%d \n", ratio);
-    printf("%f aa \n", t1->value * ratio);
-    printf("%f va \n", t1->value);
-    return t1->value * ratio;
+    int m = (t1->volume / t2->volume) / 2;
+    return get_percentage(t1->value, t1->volume) * m;
 }
 
 void MainWindow::update_ui() {
@@ -173,7 +170,7 @@ void MainWindow::update_tank(Tank *tank) {
         balance_tanks(tank, tank->bidirect_connected_tank);
     }
 
-//    vaporate_water(tank);
+    vaporate_water(tank);
 
     if(*tank->pumped && !bi)
         tank->value -= .1 * water_transfer_rate;

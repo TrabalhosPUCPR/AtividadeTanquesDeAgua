@@ -17,7 +17,7 @@ void behavior() {
     INIT(sm4, sm4_init);
     while (1) {
         EXEC(sm1);
-//        EXEC(sm2);
+        EXEC(sm2);
         EXEC(sm3);
         EXEC(sm4);
     }
