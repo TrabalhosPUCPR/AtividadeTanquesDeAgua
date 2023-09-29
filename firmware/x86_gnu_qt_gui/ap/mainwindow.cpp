@@ -46,7 +46,7 @@ MainWindow::Tank tank1 = {
     NULL
 };
 MainWindow::Tank tank2 = {
-    0,
+    75,
     water_transfer_rate,
     100,
     0,
@@ -60,7 +60,7 @@ MainWindow::Tank tank2 = {
 MainWindow::Tank tank3 = {
     0,
     water_transfer_rate,
-    50,
+    25,
     &pin_bs1,
     &off,
     &pin_s31,
@@ -152,17 +152,31 @@ void MainWindow::update_ui() {
     ui->b1->setPower(pin_b1);
     ui->toolButton_tank1->setValue(get_percentage(tank1.value, tank1.volume));
     ui->toolButton_tank2->setValue(get_percentage(tank2.value, tank2.volume));
-
-    double t3_value = get_percentage(tank3.value, tank3.volume);
-
-    ui->toolButton_tank3->setValue(t3_value);
+    ui->toolButton_tank3->setValue(get_percentage(tank3.value, tank3.volume));
 
     ui->label_waterTemp->setText(QString::number(fromFakeDecimal(*tank3.temperature)).append(" C°"));
 
     ui->label_tank1_status->setText(QString::number(tank1.value));
     ui->label_tank2_status->setText(QString::number(tank2.value));
-    ui->label_tank3_status->setText(QString::number(tank3.value/2));
+    ui->label_tank3_status->setText(QString::number(tank3.value));
 
+}
+
+int compare_tanks(MainWindow::Tank *tank1, MainWindow::Tank *tank2) {
+    if(tank1->volume > tank2->volume) {
+        uint32_t ratio = (tank1->volume / tank2->volume) / 2;
+        if(tank1->value > tank2->value * ratio)
+            return 1;
+        else if(tank1->value < tank2->value * ratio)
+            return -1;
+    } else {
+        uint32_t ratio = (tank2->volume / tank1->volume) / 2;
+        if(tank1->value * ratio > tank2->value)
+            return 1;
+        else if(tank1->value * ratio < tank2->value)
+            return -1;
+    }
+    return 0;
 }
 
 void MainWindow::update_tank(Tank *tank) {
@@ -189,12 +203,12 @@ void MainWindow::update_tank(Tank *tank) {
 }
 
 void MainWindow::balance_tanks(Tank *tank1, Tank *tank2) {
-    if(tank1->value < tank2->value && !*tank1->sensor2){
-        tank1->value += .1 * water_transfer_rate;
-        tank2->value -= .1 * water_transfer_rate;
-    } else if(tank2->value < tank1->value && !*tank2->sensor2){
-        tank1->value -= .1 * water_transfer_rate;
-        tank2->value += .1 * water_transfer_rate;
+    if(compare_tanks(tank1, tank2) < 0 && !*tank1->sensor2){
+        tank1->value += .05 * water_transfer_rate;
+        tank2->value -= .05 * water_transfer_rate;
+    } else if(compare_tanks(tank1, tank2) >= 0 && !*tank2->sensor2){
+        tank1->value -= .05 * water_transfer_rate;
+        tank2->value += .05 * water_transfer_rate;
     }
 }
 
