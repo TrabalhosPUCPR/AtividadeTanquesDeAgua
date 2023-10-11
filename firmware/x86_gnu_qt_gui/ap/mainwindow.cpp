@@ -34,16 +34,16 @@ extern uint8_t pin_b1;
 extern uint32_t pin_bs1;
 
 MainWindow::Tank tank1 = {
-    0,
-    water_add_rate,
-    100,
-    0,
-    &pin_p1,
-    &pin_s11,
-    &pin_s12,
-    &pin_v1,
-    &off,
-    NULL
+    0, // quantidade de agua
+    water_add_rate, // taxa de adicao
+    100, // volume total de agua
+    0, // temperatura
+    &pin_p1, // entrada 1
+    &pin_s11, // sensor 1
+    &pin_s12, // sensor 2
+    &pin_v1, // saida 1
+    &off, // entrada e saida 1
+    NULL // tanque conectado por input/output
 };
 MainWindow::Tank tank2 = {
     75,
@@ -56,6 +56,7 @@ MainWindow::Tank tank2 = {
     &pin_p1,
     &pin_v2,
     NULL // null pq no c++ n tem como COLOCAR A VARIAVEL LA EM CIMA E INSTANCIA DPS, PQ???? ESSA ESTRUTURA FOI TUDO VISANDO ISSO
+    // mas imagina aqui um: &tank3
 };
 MainWindow::Tank tank3 = {
     0,
@@ -67,7 +68,7 @@ MainWindow::Tank tank3 = {
     &pin_s32,
     &off,
     &pin_v2,
-    NULL
+    NULL // &tank2
 };
 
 MainWindow::Boiler boiler1 = {

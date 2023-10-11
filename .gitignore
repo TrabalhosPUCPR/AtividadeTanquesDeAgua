@@ -52,3 +52,5 @@ compile_commands.json
 *creator.user*
 
 *_qmlcache.qrc
+/firmware/atmega328_bm/atmega328_bm.X/build/
+/firmware/atmega328_bm/atmega328_bm.X/dist/
