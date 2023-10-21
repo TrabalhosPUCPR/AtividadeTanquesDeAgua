@@ -22,7 +22,7 @@ STATE(sm3_valve_on) {
 }
 STATE(sm3_valve_off) {
     v2(0);
-    if(has_time_passed(&c3) && (!s32() && !s22()) && s21())
+    if(has_time_passed(&c3) && !s32() && s21())
         NEXT_STATE(sm3_valve_on);
 }
 STATE(sm3_valve_error) {

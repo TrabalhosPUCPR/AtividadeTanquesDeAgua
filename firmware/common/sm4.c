@@ -19,7 +19,7 @@ STATE(sm4_boiler_on) {
 }
 STATE(sm4_boiler_off) {
     b1(0);
-    if(has_time_passed(&c4) && bs1() < maxTemp() && s31()) {
+    if(bs1() < minTemp() && s31()) {
         NEXT_STATE(sm4_boiler_on);
     }
 }

@@ -46,7 +46,7 @@ MainWindow::Tank tank1 = {
     NULL // tanque conectado por input/output
 };
 MainWindow::Tank tank2 = {
-    75,
+    15,
     water_transfer_rate,
     100,
     0,
@@ -59,7 +59,7 @@ MainWindow::Tank tank2 = {
     // mas imagina aqui um: &tank3
 };
 MainWindow::Tank tank3 = {
-    0,
+    25*0.89,
     water_transfer_rate,
     25,
     &pin_bs1,
@@ -240,7 +240,7 @@ void MainWindow::drain_tank1(){
     tank1.value = 0;
 }
 void MainWindow::drain_tank2(){
-    tank2.value = 0;
+    tank2.value = 25;
 }
 void MainWindow::drain_tank3(){
     tank3.value = 0;
